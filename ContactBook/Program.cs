@@ -1,6 +1,7 @@
 ﻿using DAL;
 using Domain;
 using System;
+using System.Collections.Generic;
 
 // Homework
 
@@ -15,6 +16,15 @@ namespace ContactBook
 {
 	class Program
 	{
+		private static void ListPeople(List<Person> people)
+		{
+			foreach (var person in people)
+			{
+				int _num = people.IndexOf(person) + 1;
+				Console.WriteLine($"{_num}. {person}");
+			}
+		}
+
 		static void Main(string[] args)
 		{
 			var ctx = new Context();
@@ -30,22 +40,35 @@ namespace ContactBook
 				Console.WriteLine("Delete contact");
 				Console.WriteLine("Exit");
 				input = Console.ReadKey();
-				Console.WriteLine();
+				Console.WriteLine("\r\n");
 
 				switch (input.KeyChar.ToString().ToLower())
 				{
 					case "l":
-						foreach (var person in ctx.Persons)
-						{
-							Console.WriteLine(person);
-						}
+						ListPeople(ctx.People);
 						break;
 					case "a":
-						Console.WriteLine("\r\nFirst name:");
+						Console.WriteLine("First name:");
 						var firstName = Console.ReadLine();
-						Console.WriteLine("\r\nLast name:");
+						Console.WriteLine("Last name:");
 						var lastName = Console.ReadLine();
-						ctx.Persons.Add(new Person() { FirstName = firstName, LastName = lastName });
+						ctx.People.Add(new Person() { FirstName = firstName, LastName = lastName });
+						break;
+					case "d":
+						ListPeople(ctx.People);
+						Console.WriteLine();
+						Console.WriteLine("Select a person by number to delete");
+						int _personId = 0;
+						try
+						{
+							string inputNum = Console.ReadKey().KeyChar.ToString();
+							Int32.TryParse(inputNum, out _personId);
+							ctx.People.RemoveAt(_personId - 1);
+						}
+						catch (ArgumentOutOfRangeException)
+						{
+							Console.WriteLine("Wrong ID provided!");
+						}
 						break;
 					default:
 						break;
