@@ -9,10 +9,10 @@ namespace DAL
 {
   public class Context
   {
-		public List<Person> People { get; set; } = new List<Person>();
+    public List<Person> People { get; set; } = new List<Person>();
 
-		public List<Contact> Contact { get; set; } = new List<Contact>();
+    public List<Contact> Contact { get; set; } = new List<Contact>();
 
-		public List<ContactType> ContactType { get; set; } = new List<ContactType>();
-	}
+    public List<ContactType> ContactType { get; set; } = new List<ContactType>();
+  }
 }
